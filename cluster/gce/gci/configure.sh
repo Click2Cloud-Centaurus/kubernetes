@@ -624,6 +624,7 @@ function ensure-container-runtime {
 # and places them into suitable directories. Files are placed in /home/kubernetes.
 function install-kube-binary-config {
   cd "${KUBE_HOME}"
+  log-wrap "InstallContainerdUbuntu" install-containerd-ubuntu
   local server_binary_tar_urls
   while IFS= read -r url; do
     server_binary_tar_urls+=("$url")
