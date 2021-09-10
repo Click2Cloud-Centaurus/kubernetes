@@ -473,7 +473,21 @@ function load-docker-images {
     try-load-docker-image "${img_dir}/kube-proxy.tar"
   fi
 }
-
+# Install Containerd
+function install-containerd {
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get -y update
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  cd ${KUBE_HOME}
+  wget https://github.com/containerd/containerd/releases/download/v1.4.2/containerd-1.4.2-linux-amd64.tar.gz
+  cd /usr
+  sudo tar -xvf ${KUBE_HOME}/containerd-1.4.2-linux-amd64.tar.gz
+  sudo rm -rf ${KUBE_HOME}/containerd-1.4.2-linux-amd64.tar.gz
+  cd ${KUBE_HOME}
+}
 # If we are on ubuntu we can try to install docker
 function install-docker {
   # bailout if we are not on ubuntu
@@ -624,7 +638,7 @@ function ensure-container-runtime {
 # and places them into suitable directories. Files are placed in /home/kubernetes.
 function install-kube-binary-config {
   cd "${KUBE_HOME}"
-  log-wrap "InstallContainerdUbuntu" install-containerd-ubuntu
+  log-wrap "InstallContainerd" install-containerd
   local server_binary_tar_urls
   while IFS= read -r url; do
     server_binary_tar_urls+=("$url")
