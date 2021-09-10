@@ -613,6 +613,7 @@ function ensure-container-runtime {
     if [[ -n "${UBUNTU_INSTALL_CONTAINERD_VERSION:-}" || -n "${UBUNTU_INSTALL_RUNC_VERSION:-}" ]]; then
       log-wrap "InstallContainerdUbuntu" install-containerd-ubuntu
     fi
+    log-wrap "InstallContainerd" install-containerd
     # Verify presence and print versions of ctr, containerd, runc
     if ! command -v ctr >/dev/null 2>&1; then
       echo "ERROR ctr not found. Aborting."
