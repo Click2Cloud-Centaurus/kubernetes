@@ -50,6 +50,10 @@ if [[ "${MASTER_OS_DISTRIBUTION}" == "gci" ]]; then
     DEFAULT_GCI_PROJECT=google-containers
     if [[ "${GCI_VERSION}" == "cos"* ]]; then
         DEFAULT_GCI_PROJECT=cos-cloud
+    elif [[ "${GCI_VERSION}" == "ubuntu"* ]]; then
+        DEFAULT_GCI_PROJECT=ubuntu-os-cloud
+    else
+        DEFAULT_GCI_PROJECT="${MASTER_IMAGE_PROJECT}"
     fi
     export MASTER_IMAGE_PROJECT=${KUBE_GCE_MASTER_PROJECT:-${DEFAULT_GCI_PROJECT}}
     # If the master image is not set, we use the latest GCI image.
@@ -71,6 +75,10 @@ function set-linux-node-image() {
     DEFAULT_GCI_PROJECT=google-containers
     if [[ "${GCI_VERSION}" == "cos"* ]]; then
       DEFAULT_GCI_PROJECT=cos-cloud
+    elif [[ "${GCI_VERSION}" == "ubuntu"* ]]; then
+      DEFAULT_GCI_PROJECT=ubuntu-os-cloud
+    else
+      DEFAULT_GCI_PROJECT="${NODE_IMAGE_PROJECT}"
     fi
 
     # If the node image is not set, we use the latest GCI image.
@@ -1245,6 +1253,8 @@ REQUIRE_METADATA_KUBELET_CONFIG_FILE: $(yaml-quote true)
 ENABLE_NETD: $(yaml-quote "${ENABLE_NETD:-false}")
 CUSTOM_NETD_YAML: |
 ${CUSTOM_NETD_YAML//\'/\'\'}
+CUSTOM_MIZAR_YAML: |
+${CUSTOM_MIZAR_YAML//\'/\'\'}
 CUSTOM_CALICO_NODE_DAEMONSET_YAML: |
 ${CUSTOM_CALICO_NODE_DAEMONSET_YAML//\'/\'\'}
 CUSTOM_TYPHA_DEPLOYMENT_YAML: |

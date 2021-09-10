@@ -270,6 +270,7 @@ ENABLE_NETD=${KUBE_ENABLE_NETD:-false}
 export CUSTOM_NETD_YAML=${KUBE_CUSTOM_NETD_YAML:-}
 export CUSTOM_CALICO_NODE_DAEMONSET_YAML=${KUBE_CUSTOM_CALICO_NODE_DAEMONSET_YAML:-}
 export CUSTOM_TYPHA_DEPLOYMENT_YAML=${KUBE_CUSTOM_TYPHA_DEPLOYMENT_YAML:-}
+export CUSTOM_MIZAR_YAML=${CUSTOM_MIZAR_YAML:-}
 
 # To avoid running netd on a node that is not configured appropriately,
 # label each Node so that the DaemonSet can run the Pods only on ready Nodes.
